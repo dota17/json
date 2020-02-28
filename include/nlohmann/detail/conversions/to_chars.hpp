@@ -36,6 +36,8 @@ For a detailed description of the algorithm see:
 */
 namespace dtoa_impl
 {
+JSON_HEDLEY_DIAGNOSTIC_PUSH
+_Pragma("warning(disable:26451)") // arithmetic overflow
 
 template <typename Target, typename Source>
 Target reinterpret_bits(const Source source)
@@ -1041,7 +1043,7 @@ inline char* format_buffer(char* buf, int len, int decimal_exponent,
     *buf++ = 'e';
     return append_exponent(buf, n - 1);
 }
-
+JSON_HEDLEY_DIAGNOSTIC_POP
 } // namespace dtoa_impl
 
 /*!
