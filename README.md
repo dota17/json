@@ -34,6 +34,7 @@
   - [Conversions to/from arbitrary types](#arbitrary-types-conversions)
   - [Specializing enum conversion](#specializing-enum-conversion)
   - [Binary formats (BSON, CBOR, MessagePack, and UBJSON)](#binary-formats-bson-cbor-messagepack-and-ubjson)
+  - [User self-defined cases](#User-self-defined-cases)
 - [Supported compilers](#supported-compilers)
 - [License](#license)
 - [Contact](#contact)
@@ -275,7 +276,6 @@ json empty_object_explicit = json::object();
 // a way to express an _array_ of key/value pairs [["currency", "USD"], ["value", 42.99]]
 json array_not_object = json::array({ {"currency", "USD"}, {"value", 42.99} });
 ```
-
 ### Serialization / Deserialization
 
 #### To/from strings
@@ -1011,6 +1011,34 @@ std::vector<std::uint8_t> v_ubjson = json::to_ubjson(j);
 json j_from_ubjson = json::from_ubjson(v_ubjson);
 ```
 
+### User self-defined cases
+
+This JSON library is very flexible in usage, users can customize and implement their desired functions in their own projects,
+and can also handle some edge cases by themselves, and self-defined data type that their want to parse.
+
+#### floating point comparison
+
+As we know, comparing two floating point numbers is quit unsafe and its result is quit unsure, which
+depends on the system architecture, the compiler, and the absolute/relative error value we can acccpt.
+For this reason, user can self-defined function according to specific scenarios,like
+
+```cpp
+bool is_equal(const_reference lhs, const_reference rhs)
+{
+        const auto lhs_type = lhs.type();
+        const auto rhs_type = rhs.type();
+        if (lhs_type == rhs_type)
+        {
+            switch (lhs_type)
+                // self-defined case
+                case value_t::number_float:
+                    return std::abs(lhs - rhs) <= std::numeric_limits<float>::epsilon()
+                // other cases remain the same with the original
+				...
+        }
+        ...
+}
+```
 
 ## Supported compilers
 
