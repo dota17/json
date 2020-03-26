@@ -929,7 +929,7 @@ TEST_CASE("CBOR")
 
                 SECTION("NaN")
                 {
-                    json j = json::from_cbor(std::vector<uint8_t>({0xf9, 0x7c, 0x01}));
+                    json j = json::from_cbor(std::vector<uint8_t>({0xf9, 0x7e, 0x00}));
                     json::number_float_t d = j;
                     CHECK(std::isnan(d));
                     CHECK(j.dump() == "null");
