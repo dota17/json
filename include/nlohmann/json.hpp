@@ -6556,7 +6556,8 @@ class basic_json
           - break (0xFF)
 
     @param[in] j  JSON value to serialize
-    @return MessagePack serialization as byte vector
+    @param[in] use_type Whether to store value in single-precision float
+    @return CBOR serialization as byte vector
 
     @complexity Linear in the size of the JSON value @a j.
 
@@ -6572,21 +6573,23 @@ class basic_json
 
     @since version 2.0.9
     */
-    static std::vector<uint8_t> to_cbor(const basic_json& j)
+    static std::vector<uint8_t> to_cbor(const basic_json& j, const bool use_type = false)
     {
         std::vector<uint8_t> result;
-        to_cbor(j, result);
+        to_cbor(j, result, use_type);
         return result;
     }
 
-    static void to_cbor(const basic_json& j, detail::output_adapter<uint8_t> o)
+    static void to_cbor(const basic_json& j, detail::output_adapter<uint8_t> o,
+			const bool use_type = false)
     {
-        binary_writer<uint8_t>(o).write_cbor(j);
+        binary_writer<uint8_t>(o).write_cbor(j, use_type);
     }
 
-    static void to_cbor(const basic_json& j, detail::output_adapter<char> o)
+    static void to_cbor(const basic_json& j, detail::output_adapter<char> o,
+			const bool use_type = false)
     {
-        binary_writer<char>(o).write_cbor(j);
+        binary_writer<char>(o).write_cbor(j, use_type);
     }
 
     /*!

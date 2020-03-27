@@ -61,8 +61,9 @@ class binary_writer
 
     /*!
     @param[in] j  JSON value to serialize
+    @param[in] use_type  Whether to store value in single-precision float
     */
-    void write_cbor(const BasicJsonType& j)
+    void write_cbor(const BasicJsonType& j, const bool use_type = false)
     {
         switch (j.type())
         {
@@ -176,8 +177,29 @@ class binary_writer
 
             case value_t::number_float:
             {
-                oa->write_character(get_cbor_float_prefix(j.m_value.number_float));
-                write_number(j.m_value.number_float);
+		double valueD = j.m_value.number_float;
+		float valueF = (float)valueD;
+		if (std::isnan(valueD)) {
+			// NaN is 0xf97e00 in CBOR
+			oa->write_character(to_char_type(0xF9));
+			oa->write_character(to_char_type(0x7E));
+			oa->write_character(to_char_type(0x00));
+		} else if (std::isinf(valueD)) {
+			// Infinity is 0xf97c00, -Infinity is 0xf9fc00
+			oa->write_character(to_char_type(0xf9));
+			oa->write_character(valueD > 0 ? to_char_type(0x7C) : to_char_type(0xFC));
+			oa->write_character(to_char_type(0x00));
+		} else {
+			if(use_type and (double)valueF == valueD) {
+				// single precision value
+				oa->write_character(get_cbor_float_prefix(valueF));
+				write_number(valueF);
+			} else {
+				// double precision value
+				oa->write_character(get_cbor_float_prefix(valueD));
+				write_number(valueD);
+			}
+		}
                 break;
             }
 
