@@ -4350,6 +4350,54 @@ class input_stream_adapter
     std::streambuf* sb = nullptr;
 };
 
+class input_wide_stream_adapter
+{
+  public:
+    ~input_wide_stream_adapter()
+    {
+        // clear stream flags; we use underlying streambuf I/O, do not
+        // maintain ifstream flags, except eof
+        if (wis)
+        {
+            wis->clear(wis->rdstate() & std::ios::eofbit);
+        }
+    }
+
+    explicit input_wide_stream_adapter(std::wistream& wi)
+        : wis(&wi), wsb(wi.rdbuf())
+    {}
+
+    // delete because of pointer members
+    input_wide_stream_adapter(const input_wide_stream_adapter&) = delete;
+    input_wide_stream_adapter& operator=(input_wide_stream_adapter&) = delete;
+    input_wide_stream_adapter& operator=(input_wide_stream_adapter&& rhs) = delete;
+    input_wide_stream_adapter(input_wide_stream_adapter&& rhs) : wis(rhs.wis), wsb(rhs.wsb)
+    {
+        rhs.wis = nullptr;
+        rhs.wsb = nullptr;
+    }
+
+    // std::wistream/std::wstreambuf use std::char_traits<wchar_t>::to_int_type, to
+    // ensure that std::char_traits<wchar_t>::eof() and the character 0xFF do not
+    // end up as the same value, eg. 0xFFFFFFFF.
+    std::char_traits<wchar_t>::int_type get_character()
+    {
+        auto res = wsb->sbumpc();
+        // set eof manually, as we don't use the istream interface.
+        if (res == EOF)
+        {
+            wis->clear(wis->rdstate() | std::ios::eofbit);
+        }
+        return res;
+    }
+
+  private:
+    /// the associated input stream
+    std::wistream* wis = nullptr;
+    std::wstreambuf* wsb = nullptr;
+};
+
+
 /// input adapter for buffer input
 class input_buffer_adapter
 {
@@ -4566,6 +4614,16 @@ inline input_stream_adapter input_adapter(std::istream& stream)
 inline input_stream_adapter input_adapter(std::istream&& stream)
 {
     return input_stream_adapter(stream);
+}
+// wistream support
+inline input_wide_stream_adapter input_adapter(std::wistream& stream)
+{
+    return input_wide_stream_adapter(stream);
+}
+
+inline input_wide_stream_adapter input_adapter(std::wistream&& stream)
+{
+    return input_wide_stream_adapter(stream);
 }
 
 template<typename CharT,
@@ -22488,6 +22546,12 @@ class basic_json
     {
         parser(detail::input_adapter(i)).parse(false, j);
         return i;
+    }
+
+    friend std::wistream& operator>>(std::wistream& wi, basic_json& j)
+    {
+        parser(detail::input_adapter(wi)).parse(false, j);
+        return wi;
     }
 
     /// @}

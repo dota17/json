@@ -6951,6 +6951,12 @@ class basic_json
         return i;
     }
 
+    friend std::wistream& operator>>(std::wistream& wi, basic_json& j)
+    {
+        parser(detail::input_adapter(wi)).parse(false, j);
+        return wi;
+    }
+
     /// @}
 
     ///////////////////////////
