@@ -133,7 +133,8 @@ set(files
     src/unit-ubjson.cpp
     src/unit-udt.cpp
     src/unit-unicode.cpp
-    src/unit-wstring.cpp)
+    src/unit-wstring.cpp
+    src/unit-wstream.cpp)
 
 foreach(file ${files})
     get_filename_component(file_basename ${file} NAME_WE)
