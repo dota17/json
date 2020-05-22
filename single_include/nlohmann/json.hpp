@@ -4488,6 +4488,7 @@ characters following those used in parsing the JSON input.  Clears the
 std::istream flags; any input errors (e.g., EOF) will be detected by the first
 subsequent call for input from the std::istream.
 */
+template <typename StreamType>
 class input_stream_adapter
 {
   public:
@@ -4501,7 +4502,7 @@ class input_stream_adapter
         }
     }
 
-    explicit input_stream_adapter(std::istream& i)
+    explicit input_stream_adapter(StreamType& i)
         : is(&i), sb(i.rdbuf())
     {}
 
@@ -4532,8 +4533,8 @@ class input_stream_adapter
 
   private:
     /// the associated input stream
-    std::istream* is = nullptr;
-    std::streambuf* sb = nullptr;
+    std::basic_istream<typename StreamType::char_type>* is = nullptr;
+    std::basic_streambuf<typename StreamType::char_type>* sb = nullptr;
 };
 
 /// input adapter for buffer input
@@ -4744,14 +4745,24 @@ inline file_input_adapter input_adapter(std::FILE* file)
     return file_input_adapter(file);
 }
 
-inline input_stream_adapter input_adapter(std::istream& stream)
+inline input_stream_adapter<std::istream> input_adapter(std::istream& stream)
 {
-    return input_stream_adapter(stream);
+    return input_stream_adapter<std::istream>(stream);
 }
 
-inline input_stream_adapter input_adapter(std::istream&& stream)
+inline input_stream_adapter<std::istream> input_adapter(std::istream&& stream)
 {
-    return input_stream_adapter(stream);
+    return input_stream_adapter<std::istream>(stream);
+}
+
+inline input_stream_adapter<std::wistream> input_adapter(std::wistream& stream)
+{
+    return input_stream_adapter<std::wistream>(stream);
+}
+
+inline input_stream_adapter<std::wistream> input_adapter(std::wistream&& stream)
+{
+    return input_stream_adapter<std::wistream>(stream);
 }
 
 template<typename CharT,
@@ -22610,6 +22621,11 @@ class basic_json
         return operator>>(i, j);
     }
 
+    friend std::wistream& operator<<(basic_json& j, std::wistream& i)
+    {
+        return operator>>(i, j);
+    }
+
     /*!
     @brief deserialize from stream
 
@@ -22641,6 +22657,11 @@ class basic_json
         return i;
     }
 
+    friend std::wistream& operator>>(std::wistream& i, basic_json& j)
+    {
+        parser(detail::input_adapter(i)).parse(false, j);
+        return i;
+    }
     /// @}
 
     ///////////////////////////

@@ -6817,6 +6817,11 @@ class basic_json
         return operator>>(i, j);
     }
 
+    friend std::wistream& operator<<(basic_json& j, std::wistream& i)
+    {
+        return operator>>(i, j);
+    }
+
     /*!
     @brief deserialize from stream
 
@@ -6848,6 +6853,11 @@ class basic_json
         return i;
     }
 
+    friend std::wistream& operator>>(std::wistream& i, basic_json& j)
+    {
+        parser(detail::input_adapter(i)).parse(false, j);
+        return i;
+    }
     /// @}
 
     ///////////////////////////
