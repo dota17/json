@@ -3247,6 +3247,8 @@ inline bool operator<(const value_t lhs, const value_t rhs) noexcept
 }  // namespace nlohmann
 
 
+#include <iostream>
+
 namespace nlohmann
 {
 namespace detail
@@ -3265,6 +3267,7 @@ void from_json(const BasicJsonType& j, typename std::nullptr_t& n)
 template<typename BasicJsonType, typename T>
 void from_json(const BasicJsonType& j, std::optional<T>& opt)
 {
+    std::cout << "from_json(const BasicJsonType& j, std::optional<T>& opt)" << std::endl;
     if (j.is_null())
     {
         opt = std::nullopt;
@@ -3375,6 +3378,7 @@ template<typename BasicJsonType, typename T, typename Allocator,
          enable_if_t<std::is_convertible<BasicJsonType, T>::value, int> = 0>
 void from_json(const BasicJsonType& j, std::forward_list<T, Allocator>& l)
 {
+    std::cout << "from_json(const BasicJsonType& j, std::forward_list<T, Allocator>& l)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_array()))
     {
         JSON_THROW(type_error::create(302, "type must be array, but is " + std::string(j.type_name())));

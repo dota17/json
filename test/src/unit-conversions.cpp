@@ -1710,6 +1710,7 @@ TEST_CASE("std::optional")
         std::optional<std::string> opt_null;
 
         CHECK(json(opt_null) == j_null);
+        std::cout << "null" << std::endl;
         CHECK(std::optional<std::string>(j_null) == std::nullopt);
     }
 
@@ -1719,6 +1720,7 @@ TEST_CASE("std::optional")
         std::optional<std::string> opt_string = "string";
 
         CHECK(json(opt_string) == j_string);
+        std::cout << "string" << std::endl;
         CHECK(std::optional<std::string>(j_string) == opt_string);
     }
 
@@ -1728,6 +1730,7 @@ TEST_CASE("std::optional")
         std::optional<bool> opt_bool = true;
 
         CHECK(json(opt_bool) == j_bool);
+        std::cout << "bool" << std::endl;
         CHECK(std::optional<bool>(j_bool) == opt_bool);
     }
 
@@ -1737,6 +1740,7 @@ TEST_CASE("std::optional")
         std::optional<int> opt_int = 1;
 
         CHECK(json(opt_int) == j_number);
+        std::cout << "number" << std::endl;
         CHECK(std::optional<int>(j_number) == opt_int);
     }
 
@@ -1747,7 +1751,8 @@ TEST_CASE("std::optional")
         std::vector<std::optional<int>> opt_array_tmp = j_array;
 
         CHECK(json(opt_array) == j_array);
-        //CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
+        std::cout << "array" << std::endl;
+        CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
         CHECK(opt_array_tmp == opt_array);
     }
 
@@ -1755,10 +1760,11 @@ TEST_CASE("std::optional")
     {
         json j_object = {{"one", 1}, {"two", 2}, {"zero", nullptr}};
         std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
-        std::map<std::string, std::optional<int>> opt_object_tmp = opt_object;
+        std::map<std::string, std::optional<int>> opt_object_tmp = j_object;
 
         CHECK(json(opt_object) == j_object);
-        //CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
+        std::cout << "object" << std::endl;
+        CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
         CHECK(opt_object_tmp == opt_object);
     }
 }
