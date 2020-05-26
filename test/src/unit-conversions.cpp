@@ -1744,6 +1744,7 @@ TEST_CASE("std::optional")
     {
         json j_array = {1, 2, nullptr};
         std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
+        std::vector<std::optional<int>> opt_array = j_array;
 
         CHECK(json(opt_array) == j_array);
         CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
