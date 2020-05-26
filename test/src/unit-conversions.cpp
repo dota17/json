@@ -1747,16 +1747,19 @@ TEST_CASE("std::optional")
         std::vector<std::optional<int>> opt_array_tmp = j_array;
 
         CHECK(json(opt_array) == j_array);
-        CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
+        //CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
+        CHECK(opt_array_tmp == opt_array);
     }
 
     SECTION("object")
     {
         json j_object = {{"one", 1}, {"two", 2}, {"zero", nullptr}};
         std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
+        std::map<std::string, std::optional<int>> opt_object_tmp = opt_object;
 
         CHECK(json(opt_object) == j_object);
-        CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
+        //CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
+        CHECK(opt_object_tmp == opt_object);
     }
 }
 #endif
