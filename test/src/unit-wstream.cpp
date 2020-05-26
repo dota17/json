@@ -32,9 +32,9 @@ SOFTWARE.
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <sstream>
+#include <clocale>
 
 using nlohmann::json;
-
 namespace
 {
 bool wchar_is_bit8();
@@ -64,67 +64,91 @@ bool wstring_is_utf16()
 
 TEST_CASE("wide stream")
 {
-    SECTION ("wstring is utf16")
+    SECTION("wchar_t is bit8")
     {
         if (wstring_is_utf16())
         {
-            SECTION("wchar is bit-8")
+            if (wchar_is_bit8())
             {
-              if (wchar_is_bit8())
-              {
                 wchar_t ch[] = { L"你好，世界" };
-
                 std::wstring wstr;
                 std::wstringstream wss;
                 wss.str(ch);
                 wss >> wstr;
                 json j = json::parse(wstr);
                 CHECK(j.dump() == "你好，世界");
-              }
             }
-
-            SECTION("wchar is bit-16")
-            {
-              if (wchar_is_bit16())
-              {
-                wchar_t ch[] = { L"你好，世界" };
-
-                std::wstring wstr;
-                std::wstringstream wss;
-                wss.str(ch);
-                wss >> wstr;
-                json j = json::parse(wstr);
-                CHECK(j.dump() == "你好，世界");
-              }
-            }
-
-            SECTION("wchar is bit-32")
-            {
-              if (wchar_is_bit32())
-              {
-                wchar_t ch[] = { L"你好，世界" };
-
-                std::wstring wstr;
-                std::wstringstream wss;
-                wss.str(ch);
-                wss >> wstr;
-                json j = json::parse(wstr);
-                CHECK(j.dump() == "你好，世界");
-              }
-            }
-
-            SECTION("operator >>")
-            {
-              if (wchar_is_bit16())
-              {
-                std::wstringstream wss;
-                wss  << L"你好，世界";
-                json j;
-                wss >> j;
-                CHECK(j == json({"你好，世界"}));
-              }
-            }
-
         }
     }
+
+    SECTION("wchar_t is bit16")
+    {
+        if (wstring_is_utf16())
+        {
+            if (wchar_is_bit16())
+            {
+                wchar_t ch[] = { L"你好，世界" };
+                std::wstring wstr;
+                std::wstringstream wss;
+                wss.str(ch);
+                wss >> wstr;
+                json j = json::parse(wstr);
+                CHECK(j.dump() == "你好，世界");
+            }
+        }
+    }
+
+    SECTION("wchar_t is bit32")
+    {
+        if (wstring_is_utf16())
+        {
+            if (wchar_is_bit32())
+            {
+                wchar_t ch[] = { L"你好，世界" };
+                std::wstring wstr;
+                std::wstringstream wss;
+                wss.str(ch);
+                wss >> wstr;
+                json j = json::parse(wstr);
+                CHECK(j.dump() == "你好，世界");
+            }
+        }
+    }
+
+    SECTION("operator >>")
+    {
+        if (wchar_is_bit8())
+        {
+            std::wstringstream wss;
+            wss  << L"你好，世界";
+            json j;
+            wss >> j;
+            CHECK(j == json({"你好，世界"}));
+         }
+    }
+
+    SECTION("operator >>")
+    {
+        if (wchar_is_bit16())
+        {
+            std::wstringstream wss;
+            wss  << L"你好，世界";
+            json j;
+            wss >> j;
+            CHECK(j == json({"你好，世界"}));
+         }
+    }
+
+    SECTION("operator >>")
+    {
+        if (wchar_is_bit32())
+        {
+            std::wstringstream wss;
+            wss  << L"你好，世界";
+            json j;
+            wss >> j;
+            CHECK(j == json({"你好，世界"}));
+         }
+    }
+
 }
