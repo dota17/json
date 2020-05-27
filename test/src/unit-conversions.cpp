@@ -1707,16 +1707,6 @@ TEST_CASE("JSON to enum mapping")
 #ifdef JSON_HAS_CPP_17
 TEST_CASE("std::optional")
 {
-    SECTION("null")
-    {
-        json j_null;
-        std::optional<std::string> opt_null;
-
-        CHECK(json(opt_null) == j_null);
-        std::cout << "null" << std::endl;
-        CHECK(std::optional<std::string>(j_null) == std::nullopt);
-    }
-
     SECTION("string")
     {
         json j_string = "string";
@@ -1725,6 +1715,16 @@ TEST_CASE("std::optional")
         CHECK(json(opt_string) == j_string);
         std::cout << "string" << std::endl;
         CHECK(std::optional<std::string>(j_string) == opt_string);
+    }
+    
+    SECTION("null")
+    {
+        json j_null;
+        std::optional<std::string> opt_null;
+
+        CHECK(json(opt_null) == j_null);
+        std::cout << "null" << std::endl;
+        CHECK(std::optional<std::string>(j_null) == std::nullopt);
     }
 
     SECTION("bool")
