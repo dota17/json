@@ -1519,7 +1519,7 @@ using nlohmann::json;
 //                j3.get<std::vector<double>>();
 //                j4.get<std::vector<bool>>();
 //                j5.get<std::vector<std::string>>();
-//                
+//
 //                std::cout << "std::vector" << std::endl;
 //            }
 //
@@ -1716,16 +1716,16 @@ TEST_CASE("std::optional")
         std::cout << "string" << std::endl;
         CHECK(std::optional<std::string>(j_string) == opt_string);
     }
-    
-//    SECTION("null")
-//    {
-//        json j_null;
-//        std::optional<std::string> opt_null;
-//
-//        CHECK(json(opt_null) == j_null);
-//        std::cout << "null" << std::endl;
-//        CHECK(std::optional<std::string>(j_null) == std::nullopt);
-//    }
+
+    //    SECTION("null")
+    //    {
+    //        json j_null;
+    //        std::optional<std::string> opt_null;
+    //
+    //        CHECK(json(opt_null) == j_null);
+    //        std::cout << "null" << std::endl;
+    //        CHECK(std::optional<std::string>(j_null) == std::nullopt);
+    //    }
 
     SECTION("bool")
     {
@@ -1747,28 +1747,28 @@ TEST_CASE("std::optional")
         CHECK(std::optional<int>(j_number) == opt_int);
     }
 
-//    SECTION("array")
-//    {
-//        json j_array = {1, 2, nullptr};
-//        std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
-//        std::vector<std::optional<int>> opt_array_tmp = j_array;
-//
-//        CHECK(json(opt_array) == j_array);
-//        std::cout << "array" << std::endl;
-//        CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
-//        CHECK(opt_array_tmp == opt_array);
-//    }
-//
-//    SECTION("object")
-//    {
-//        json j_object = {{"one", 1}, {"two", 2}, {"zero", nullptr}};
-//        std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
-//        std::map<std::string, std::optional<int>> opt_object_tmp = j_object;
-//
-//        CHECK(json(opt_object) == j_object);
-//        std::cout << "object" << std::endl;
-//        CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
-//        CHECK(opt_object_tmp == opt_object);
-//    }
+    //    SECTION("array")
+    //    {
+    //        json j_array = {1, 2, nullptr};
+    //        std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
+    //        std::vector<std::optional<int>> opt_array_tmp = j_array;
+    //
+    //        CHECK(json(opt_array) == j_array);
+    //        std::cout << "array" << std::endl;
+    //        CHECK(static_cast<std::vector<std::optional<int>>>(j_array) == opt_array);
+    //        CHECK(opt_array_tmp == opt_array);
+    //    }
+    //
+    //    SECTION("object")
+    //    {
+    //        json j_object = {{"one", 1}, {"two", 2}, {"zero", nullptr}};
+    //        std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
+    //        std::map<std::string, std::optional<int>> opt_object_tmp = j_object;
+    //
+    //        CHECK(json(opt_object) == j_object);
+    //        std::cout << "object" << std::endl;
+    //        CHECK(static_cast<std::map<std::string, std::optional<int>>>(j_object) == opt_object);
+    //        CHECK(opt_object_tmp == opt_object);
+    //    }
 }
 #endif

@@ -3312,6 +3312,7 @@ void get_arithmetic_value(const BasicJsonType& j, ArithmeticType& val)
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)
 {
+    std::cout << "from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_boolean()))
     {
         JSON_THROW(type_error::create(302, "type must be boolean, but is " + std::string(j.type_name())));
@@ -3322,6 +3323,7 @@ void from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::string_t& s)
 {
+    std::cout << "from_json(const BasicJsonType& j, typename BasicJsonType::string_t& s)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_string()))
     {
         JSON_THROW(type_error::create(302, "type must be string, but is " + std::string(j.type_name())));
@@ -3338,6 +3340,7 @@ template <
         int > = 0 >
 void from_json(const BasicJsonType& j, ConstructibleStringType& s)
 {
+    std::cout << "from_json(const BasicJsonType& j, ConstructibleStringType& s)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_string()))
     {
         JSON_THROW(type_error::create(302, "type must be string, but is " + std::string(j.type_name())));
@@ -3349,18 +3352,21 @@ void from_json(const BasicJsonType& j, ConstructibleStringType& s)
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::number_float_t& val)
 {
+    std::cout << "from_json(const BasicJsonType& j, typename BasicJsonType::number_float_t& val)" << std::endl;
     get_arithmetic_value(j, val);
 }
 
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::number_unsigned_t& val)
 {
+    std::cout << "from_json(const BasicJsonType& j, typename BasicJsonType::number_unsigned_t& val)" << std::endl;
     get_arithmetic_value(j, val);
 }
 
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::number_integer_t& val)
 {
+    std::cout << "from_json(const BasicJsonType& j, typename BasicJsonType::number_integer_t& val)" << std::endl;
     get_arithmetic_value(j, val);
 }
 
@@ -3368,6 +3374,7 @@ template<typename BasicJsonType, typename EnumType,
          enable_if_t<std::is_enum<EnumType>::value, int> = 0>
 void from_json(const BasicJsonType& j, EnumType& e)
 {
+    std::cout << "from_json(const BasicJsonType& j, EnumType& e)" << std::endl;
     typename std::underlying_type<EnumType>::type val;
     get_arithmetic_value(j, val);
     e = static_cast<EnumType>(val);
@@ -3396,6 +3403,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_convertible<BasicJsonType, T>::value, int> = 0>
 void from_json(const BasicJsonType& j, std::valarray<T>& l)
 {
+    std::cout << "from_json(const BasicJsonType& j, std::valarray<T>& l)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_array()))
     {
         JSON_THROW(type_error::create(302, "type must be array, but is " + std::string(j.type_name())));
@@ -3507,6 +3515,7 @@ template<typename BasicJsonType, typename ConstructibleObjectType,
          enable_if_t<is_constructible_object_type<BasicJsonType, ConstructibleObjectType>::value, int> = 0>
 void from_json(const BasicJsonType& j, ConstructibleObjectType& obj)
 {
+    std::cout << "from_json(const BasicJsonType& j, ConstructibleObjectType& obj)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_object()))
     {
         JSON_THROW(type_error::create(302, "type must be object, but is " + std::string(j.type_name())));
@@ -3539,6 +3548,7 @@ template<typename BasicJsonType, typename ArithmeticType,
              int> = 0>
 void from_json(const BasicJsonType& j, ArithmeticType& val)
 {
+    std::cout << "from_json(const BasicJsonType& j, ArithmeticType& val)" << std::endl;
     switch (static_cast<value_t>(j))
     {
         case value_t::number_unsigned:
@@ -4057,6 +4067,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_constructible<BasicJsonType, T>::value, int> = 0>
 void to_json(BasicJsonType& j, const std::optional<T>& opt)
 {
+    std::cout << "to_json(BasicJsonType& j, const std::optional<T>& opt)" << std::endl;
     if (opt.has_value())
     {
         j = *opt;
