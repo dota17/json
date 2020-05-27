@@ -1519,6 +1519,8 @@ TEST_CASE("value conversion")
                 j3.get<std::vector<double>>();
                 j4.get<std::vector<bool>>();
                 j5.get<std::vector<std::string>>();
+                
+                std::cout << "std::vector" << std::endl;
             }
 
             SECTION("std::deque")
@@ -1684,6 +1686,7 @@ TEST_CASE("JSON to enum mapping")
 
     SECTION("traditional enum")
     {
+        std::cout << "traditional enum" << std::endl;
         // enum -> json
         CHECK(json(TS_STOPPED) == "stopped");
         CHECK(json(TS_RUNNING) == "running");
