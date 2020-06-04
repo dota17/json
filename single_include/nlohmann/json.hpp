@@ -16922,7 +16922,11 @@ class basic_json
     @since version 1.0.0
     */
     basic_json(std::nullptr_t = nullptr) noexcept
+#ifdef JSON_HAS_CPP_17
+        : basic_json(value_t::object)
+#else
         : basic_json(value_t::null)
+#endif
     {
         assert_invariant();
     }
