@@ -32,6 +32,12 @@ SOFTWARE.
 #include <nlohmann/json.hpp>
 using nlohmann::json;
 
+#if (defined(__cplusplus) && __cplusplus >= 201703L) || \
+    (defined(_HAS_CXX17) && _HAS_CXX17 == 1) || \
+    (defined(__clang__) && __clang_major__ == 5 && __clang_minor__ >= 0)
+    #define JSON_HAS_CPP_17
+#endif
+
 #include <sstream>
 #include <iomanip>
 
@@ -100,7 +106,92 @@ TEST_CASE("serialization")
 
     SECTION("dump")
     {
-        SECTION("invalid character")
+        SECTION("special value: json{}")
+        {
+            json j = json{};
+
+            #ifdef JSON_HAS_CPP_17
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #else
+            {
+                CHECK(j.type_name() == "null");
+                CHECK(j.dump() == "null");
+            }
+            #endif
+        }
+
+        SECTION("special value: json::object()")
+        {
+            json j = json::object();
+
+            #ifdef JSON_HAS_CPP_17
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #else
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #endif
+        }
+
+        SECTION("special value: json({})")
+        {
+            json j = json({});
+
+            #ifdef JSON_HAS_CPP_17
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #else
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #endif
+        }
+
+        SECTION("special value: json(json{})")
+        {
+            json j = json(json{});
+
+            #ifdef JSON_HAS_CPP_17
+            {
+                CHECK(j.type_name() == "object");
+                CHECK(j.dump() == "{}");
+            }
+            #else
+            {
+                CHECK(j.type_name() == "null");
+                CHECK(j.dump() == "null");
+            }
+            #endif
+        }
+
+        SECTION("special value: json({}, false)")
+        {
+            json j = json({}, false);
+
+            #ifdef JSON_HAS_CPP_17
+            {
+                CHECK(j.type_name() == "array");
+                CHECK(j.dump() == "[]");
+            }
+            #else
+            {
+                CHECK(j.type_name() == "array");
+                CHECK(j.dump() == "[]");
+            }
+            #endif
+        }
+
+       SECTION("invalid character")
         {
             json j = "ä\xA9ü";
 
