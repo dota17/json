@@ -148,6 +148,28 @@ TEST_CASE("element access 2")
 
         SECTION("access specified element with default value")
         {
+            SECTION("json is rvalue")
+            {
+                json j = {{"x", "123"}};
+                std::string defval = "default";
+                auto val = std::move(j).value("x", defval);
+
+                CHECK(j["x"] == "");
+                CHECK(defval == "default");
+                CHECK(val == "123");
+            }
+
+            SECTION("default is rvalue")
+            {
+                json j = {{"x", "123"}};
+                std::string defval = "default";
+                auto val = std::move(j).value("y", std::move(defval));
+
+                CHECK(j["x"] == "123");
+                CHECK(defval == "");
+                CHECK(val == "default");
+            }
+
             SECTION("given a key")
             {
                 SECTION("access existing value")
