@@ -19,6 +19,8 @@
 #include <nlohmann/detail/meta/type_traits.hpp>
 #include <nlohmann/detail/value_t.hpp>
 
+#include <iostream>
+
 namespace nlohmann
 {
 namespace detail
@@ -37,6 +39,7 @@ void from_json(const BasicJsonType& j, typename std::nullptr_t& n)
 template<typename BasicJsonType, typename T>
 void from_json(const BasicJsonType& j, std::optional<T>& opt)
 {
+    std::cout << "void from_json(const BasicJsonType& j, std::optional<T>& opt)" << std::endl;
     if (j.is_null())
     {
         opt = std::nullopt;

@@ -15,6 +15,8 @@
 #include <nlohmann/detail/meta/type_traits.hpp>
 #include <nlohmann/detail/value_t.hpp>
 
+#include <iostream>
+
 namespace nlohmann
 {
 namespace detail
@@ -225,6 +227,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_constructible<BasicJsonType, T>::value, int> = 0>
 void to_json(BasicJsonType& j, const std::optional<T>& opt)
 {
+	std::cout << "void to_json(BasicJsonType& j, const std::optional<T>& opt)" << std::endl;
     if (opt.has_value())
     {
         j = *opt;

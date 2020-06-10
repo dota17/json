@@ -42,6 +42,8 @@ using nlohmann::json;
 #include <unordered_set>
 #include <valarray>
 
+#include <iostream>
+
 #if (defined(__cplusplus) && __cplusplus >= 201703L) || (defined(_HAS_CXX17) && _HAS_CXX17 == 1) // fix for issue #464
     #define JSON_HAS_CPP_17
     #define JSON_HAS_CPP_14
@@ -1701,9 +1703,16 @@ TEST_CASE("JSON to enum mapping")
     }
 }
 
-#ifdef JSON_HAS_CPP_17
+
 TEST_CASE("std::optional")
 {
+#ifdef JSON_HAS_CPP_17
+    std::cout << "JSON_HAS_CPP_17 = True" << std::endl;
+#else
+	std::cout << "JSON_HAS_CPP_17 = Flase" << std::endl;
+#endif
+
+#ifdef JSON_HAS_CPP_17
     SECTION("null")
     {
         json j_null;
@@ -1757,5 +1766,5 @@ TEST_CASE("std::optional")
         CHECK(json(opt_object) == j_object);
         CHECK(std::map<std::string, std::optional<int>>(j_object) == opt_object);
     }
-}
 #endif
+}
