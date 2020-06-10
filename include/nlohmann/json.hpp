@@ -3796,7 +3796,7 @@ class basic_json
                  and not std::is_same<value_t, ValueType>::value, int>::type = 0>
     detail::uncvref_t<ValueType> value(const typename object_t::key_type& key, ValueType && default_value) &&
     {
-        // at only works for objects
+        // only works for objects
         if (JSON_HEDLEY_LIKELY(is_object()))
         {
             // if key is found, return value and given default value otherwise
