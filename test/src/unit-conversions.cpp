@@ -1715,55 +1715,74 @@ TEST_CASE("std::optional")
 #ifdef JSON_HAS_CPP_17
 /*     SECTION("null")
     {
+        std::cout << "null test: " << std::endl;
         json j_null;
         std::optional<std::string> opt_null;
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_null) == j_null);
+        std::cout << "from json - " << std::endl;
         CHECK(std::optional<std::string>(j_null) == std::nullopt);
     } */
 
     SECTION("string")
     {
+        std::cout << "string test: " << std::endl;
         json j_string = "string";
         std::optional<std::string> opt_string = "string";
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_string) == j_string);
+        std::cout << "from json - " << std::endl;
         CHECK(std::optional<std::string>(j_string) == opt_string);
     }
 
     SECTION("bool")
     {
+        std::cout << "bool test: " << std::endl;
         json j_bool = true;
         std::optional<bool> opt_bool = true;
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_bool) == j_bool);
+        std::cout << "from json - " << std::endl;
         CHECK(std::optional<bool>(j_bool) == opt_bool);
     }
 
     SECTION("number")
     {
+        std::cout << "number test: " << std::endl;
         json j_number = 1;
         std::optional<int> opt_int = 1;
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_int) == j_number);
+        std::cout << "from json - " << std::endl;
         CHECK(std::optional<int>(j_number) == opt_int);
     }
 
     /* SECTION("array")
     {
+        std::cout << "array test: " << std::endl;
         json j_array = {1, 2, nullptr};
         std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_array) == j_array);
+
+        std::cout << "from json - " << std::endl;
         CHECK(std::vector<std::optional<int>>(j_array) == opt_array);
     }
 
     SECTION("object")
     {
+        std::cout << "object test: " << std::endl;
         json j_object = {{"one", 1}, {"two", 2}, {"zero", nullptr}};
         std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
 
+        std::cout << "to json - " << std::endl;
         CHECK(json(opt_object) == j_object);
+        std::cout << "from json - " << std::endl;
         CHECK(std::map<std::string, std::optional<int>>(j_object) == opt_object);
     } */
 #endif
