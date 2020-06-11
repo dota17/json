@@ -1713,14 +1713,14 @@ TEST_CASE("std::optional")
 #endif
 
 #ifdef JSON_HAS_CPP_17
-    SECTION("null")
+/*     SECTION("null")
     {
         json j_null;
         std::optional<std::string> opt_null;
 
         CHECK(json(opt_null) == j_null);
         CHECK(std::optional<std::string>(j_null) == std::nullopt);
-    }
+    } */
 
     SECTION("string")
     {
@@ -1749,7 +1749,7 @@ TEST_CASE("std::optional")
         CHECK(std::optional<int>(j_number) == opt_int);
     }
 
-    SECTION("array")
+    /* SECTION("array")
     {
         json j_array = {1, 2, nullptr};
         std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
@@ -1765,6 +1765,6 @@ TEST_CASE("std::optional")
 
         CHECK(json(opt_object) == j_object);
         CHECK(std::map<std::string, std::optional<int>>(j_object) == opt_object);
-    }
+    } */
 #endif
 }
