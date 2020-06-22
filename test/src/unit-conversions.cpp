@@ -1761,7 +1761,7 @@ TEST_CASE("std::optional")
         CHECK(std::optional<int>(j_number) == opt_int);
     }
 
-    /* SECTION("array")
+    SECTION("array")
     {
         std::cout << "array test: " << std::endl;
         json j_array = {1, 2, nullptr};
@@ -1771,7 +1771,8 @@ TEST_CASE("std::optional")
         CHECK(json(opt_array) == j_array);
 
         std::cout << "from json - " << std::endl;
-        CHECK(std::vector<std::optional<int>>(j_array) == opt_array);
+        std::vector<std::optional<int>> tmp = j_array;
+        CHECK(tmp == opt_array);
     }
 
     SECTION("object")
@@ -1783,7 +1784,8 @@ TEST_CASE("std::optional")
         std::cout << "to json - " << std::endl;
         CHECK(json(opt_object) == j_object);
         std::cout << "from json - " << std::endl;
-        CHECK(std::map<std::string, std::optional<int>>(j_object) == opt_object);
-    } */
+        std::map<std::string, std::optional<int>> tmp = j_object;
+        CHECK(tmp == opt_object);
+    }
 #endif
 }
