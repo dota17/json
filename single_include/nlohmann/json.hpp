@@ -3247,6 +3247,8 @@ inline bool operator<(const value_t lhs, const value_t rhs) noexcept
 }  // namespace nlohmann
 
 
+#include <iostream>
+
 namespace nlohmann
 {
 namespace detail
@@ -3265,6 +3267,7 @@ void from_json(const BasicJsonType& j, typename std::nullptr_t& n)
 template<typename BasicJsonType, typename T>
 void from_json(const BasicJsonType& j, std::optional<T>& opt)
 {
+    std::cout << "void from_json(const BasicJsonType& j, std::optional<T>& opt)" << std::endl;
     if (j.is_null())
     {
         opt = std::nullopt;
@@ -3309,6 +3312,7 @@ void get_arithmetic_value(const BasicJsonType& j, ArithmeticType& val)
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)
 {
+    std::cout << "void from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_boolean()))
     {
         JSON_THROW(type_error::create(302, "type must be boolean, but is " + std::string(j.type_name())));
@@ -3319,6 +3323,7 @@ void from_json(const BasicJsonType& j, typename BasicJsonType::boolean_t& b)
 template<typename BasicJsonType>
 void from_json(const BasicJsonType& j, typename BasicJsonType::string_t& s)
 {
+    std::cout << "void from_json(const BasicJsonType& j, typename BasicJsonType::string_t& s)" << std::endl;
     if (JSON_HEDLEY_UNLIKELY(not j.is_string()))
     {
         JSON_THROW(type_error::create(302, "type must be string, but is " + std::string(j.type_name())));
@@ -3843,6 +3848,8 @@ class tuple_element<N, ::nlohmann::detail::iteration_proxy_value<IteratorType >>
 // #include <nlohmann/detail/value_t.hpp>
 
 
+#include <iostream>
+
 namespace nlohmann
 {
 namespace detail
@@ -4053,6 +4060,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_constructible<BasicJsonType, T>::value, int> = 0>
 void to_json(BasicJsonType& j, const std::optional<T>& opt)
 {
+    std::cout << "void to_json(BasicJsonType& j, const std::optional<T>& opt)" << std::endl;
     if (opt.has_value())
     {
         j = *opt;
@@ -4068,6 +4076,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_same<T, typename BasicJsonType::boolean_t>::value, int> = 0>
 void to_json(BasicJsonType& j, T b) noexcept
 {
+    std::cout << "void to_json(BasicJsonType& j, boolean_t opt)" << std::endl;
     external_constructor<value_t::boolean>::construct(j, b);
 }
 
@@ -4075,6 +4084,7 @@ template<typename BasicJsonType, typename CompatibleString,
          enable_if_t<std::is_constructible<typename BasicJsonType::string_t, CompatibleString>::value, int> = 0>
 void to_json(BasicJsonType& j, const CompatibleString& s)
 {
+    std::cout << "void to_json(BasicJsonType& j, string_t opt)" << std::endl;
     external_constructor<value_t::string>::construct(j, s);
 }
 

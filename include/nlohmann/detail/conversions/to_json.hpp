@@ -227,7 +227,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_constructible<BasicJsonType, T>::value, int> = 0>
 void to_json(BasicJsonType& j, const std::optional<T>& opt)
 {
-	std::cout << "void to_json(BasicJsonType& j, const std::optional<T>& opt)" << std::endl;
+    std::cout << "void to_json(BasicJsonType& j, const std::optional<T>& opt)" << std::endl;
     if (opt.has_value())
     {
         j = *opt;
@@ -243,6 +243,7 @@ template<typename BasicJsonType, typename T,
          enable_if_t<std::is_same<T, typename BasicJsonType::boolean_t>::value, int> = 0>
 void to_json(BasicJsonType& j, T b) noexcept
 {
+    std::cout << "void to_json(BasicJsonType& j, boolean_t opt)" << std::endl;
     external_constructor<value_t::boolean>::construct(j, b);
 }
 
@@ -250,6 +251,7 @@ template<typename BasicJsonType, typename CompatibleString,
          enable_if_t<std::is_constructible<typename BasicJsonType::string_t, CompatibleString>::value, int> = 0>
 void to_json(BasicJsonType& j, const CompatibleString& s)
 {
+    std::cout << "void to_json(BasicJsonType& j, string_t opt)" << std::endl;
     external_constructor<value_t::string>::construct(j, s);
 }
 

@@ -1709,21 +1709,21 @@ TEST_CASE("std::optional")
 #ifdef JSON_HAS_CPP_17
     std::cout << "JSON_HAS_CPP_17 = True" << std::endl;
 #else
-	std::cout << "JSON_HAS_CPP_17 = Flase" << std::endl;
+    std::cout << "JSON_HAS_CPP_17 = Flase" << std::endl;
 #endif
 
 #ifdef JSON_HAS_CPP_17
-/*     SECTION("null")
-    {
-        std::cout << "null test: " << std::endl;
-        json j_null;
-        std::optional<std::string> opt_null;
+    /*     SECTION("null")
+        {
+            std::cout << "null test: " << std::endl;
+            json j_null;
+            std::optional<std::string> opt_null;
 
-        std::cout << "to json - " << std::endl;
-        CHECK(json(opt_null) == j_null);
-        std::cout << "from json - " << std::endl;
-        CHECK(std::optional<std::string>(j_null) == std::nullopt);
-    } */
+            std::cout << "to json - " << std::endl;
+            CHECK(json(opt_null) == j_null);
+            std::cout << "from json - " << std::endl;
+            CHECK(std::optional<std::string>(j_null) == std::nullopt);
+        } */
 
     SECTION("string")
     {
