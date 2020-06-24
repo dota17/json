@@ -1713,17 +1713,18 @@ TEST_CASE("std::optional")
 #endif
 
 #ifdef JSON_HAS_CPP_17
-    /*     SECTION("null")
-        {
-            std::cout << "null test: " << std::endl;
-            json j_null;
-            std::optional<std::string> opt_null;
+    SECTION("null")
+    {
+        std::cout << "null test: " << std::endl;
+        json j_null;
+        std::optional<std::string> opt_null;
 
-            std::cout << "to json - " << std::endl;
-            CHECK(json(opt_null) == j_null);
-            std::cout << "from json - " << std::endl;
-            CHECK(std::optional<std::string>(j_null) == std::nullopt);
-        } */
+        std::cout << "to json - " << std::endl;
+        CHECK(json(opt_null) == j_null);
+        std::cout << "from json - " << std::endl;
+        CHECK_THROWS_WITH(std::optional<std::string>(j_null) == std::nullopt,
+                          "[json.exception.type_error.302] type must be string, but is null");
+    }
 
     SECTION("string")
     {
