@@ -19099,6 +19099,8 @@ class basic_json
                    , int >::type = 0 >
     operator ValueType() const
     {
+        printf("operator ValueType() const\n");
+        printf("%s\n\n", __PRETTY_FUNCTION__);
         // delegate the call to get<>() const
         return get<ValueType>();
     }
