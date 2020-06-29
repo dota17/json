@@ -1710,14 +1710,12 @@ TEST_CASE("std::optional")
         std::optional<std::string> opt_null;
 
         CHECK(json(opt_null) == j_null);
-        CHECK_THROWS_WITH(std::optional<std::string>(j_null),
-                          "[json.exception.type_error.302] type must be string, but is null");
+        CHECK(std::optional<std::string>(j_null) == std::nullopt);
 
         std::optional<std::string> tmp = j_null;
         CHECK(tmp == std::nullopt);
 
-        CHECK_THROWS_WITH(std::optional<bool>(json()),
-                          "[json.exception.type_error.302] type must be boolean, but is null");
+        CHECK(std::optional<bool>(json()) == std::nullopt);
 
         std::optional<bool> tmp2 = json();
         CHECK(tmp2 == std::nullopt);
