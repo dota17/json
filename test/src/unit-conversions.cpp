@@ -28,7 +28,7 @@ SOFTWARE.
 */
 
 #include "doctest_compatibility.h"
-
+#include <iostream>
 #define private public
 #include <nlohmann/json.hpp>
 using nlohmann::json;
@@ -1706,10 +1706,12 @@ TEST_CASE("std::optional")
 {
     SECTION("null")
     {
+        std::cout << "JSON_HAS_CPP_17 = True" << std::endl;
         json j_null;
         std::optional<std::string> opt_null;
 
         CHECK(json(opt_null) == j_null);
+        std::cout << "from json" << std::endl;
         CHECK(std::optional<std::string>(j_null) == std::nullopt);
 
         std::optional<std::string> tmp = j_null;
