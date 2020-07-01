@@ -1729,7 +1729,10 @@ TEST_CASE("std::optional")
         std::optional<std::string> opt_string = "string";
 
         CHECK(json(opt_string) == j_string);
+        std::cout << "from_json(string) start" << std::endl;
         CHECK(std::optional<std::string>(j_string) == opt_string);
+        
+        std::cout << "from_json(string) end" << std::endl;
     }
 
     SECTION("bool")
@@ -1738,7 +1741,10 @@ TEST_CASE("std::optional")
         std::optional<bool> opt_bool = true;
 
         CHECK(json(opt_bool) == j_bool);
+        
+        std::cout << "from_json(bool) start" << std::endl;
         CHECK(std::optional<bool>(j_bool) == opt_bool);
+        std::cout << "from_json(bool) end" << std::endl;
     }
 
     SECTION("number")
@@ -1748,18 +1754,21 @@ TEST_CASE("std::optional")
         std::optional<int> opt_int = 1;
 
         CHECK(json(opt_int) == j_number);
-        std::cout << "from json start" << std::endl;
+        std::cout << "from_json(number) start" << std::endl;
         CHECK(std::optional<int>(j_number) == opt_int);
-        std::cout << "from json end" << std::endl;
+        std::cout << "from_json(number) end" << std::endl;
     }
-
     SECTION("array")
     {
         json j_array = {1, 2, nullptr};
         std::vector<std::optional<int>> opt_array = {{1, 2, std::nullopt}};
 
         CHECK(json(opt_array) == j_array);
+
+        std::cout << "from_json(array) start" << std::endl;
         std::vector<std::optional<int>> tmp = j_array;
+
+        std::cout << "from_json(array) end" << std::endl;
         CHECK(tmp == opt_array);
     }
 
@@ -1769,7 +1778,11 @@ TEST_CASE("std::optional")
         std::map<std::string, std::optional<int>> opt_object {{"one", 1}, {"two", 2}, {"zero", std::nullopt}};
 
         CHECK(json(opt_object) == j_object);
+
+        std::cout << "from_json(object) start" << std::endl;
         std::map<std::string, std::optional<int>> tmp = j_object;
+        
+        std::cout << "from_json(object) end" << std::endl;
         CHECK(tmp == opt_object);
     }
 }
